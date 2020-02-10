@@ -67,6 +67,22 @@
 			
 			if(!empty($fname) && !empty($lname) && !empty($email) && !empty($country))
 			{
+                if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+                {
+                      $secret = '6Le2o9cUAAAAAFgmZ3lVZcKJAPr_dH9c8XpT-OII';
+                      $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+                      $responseData = json_decode($verifyResponse);
+                      if($responseData->success)
+                      {
+                          $message = 'Your contact request have submitted successfully.';
+                      }
+                      else
+                      {
+                          $message = 'Robot verification failed, please try again.';
+                      }
+                 }
+
+
                  $message = login($fname, $lname, $email, $country, $ip);
 
                 //   echo $sql;
@@ -102,6 +118,7 @@
             $result = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
+
     
             
         }else{
@@ -148,18 +165,18 @@
     <!-- post foes not reveal information on the site, and get does-->
     <form action="admin_login.php" method="post">
         <label for="">First name:</label>
-        <input type="text" name="fname" id="fname" value="">
+        <input type="text" name="fname" id="fname" value="" required>
 
         <label for="">Last name:</label>
-        <input type="text" name="lname" id="lname" value="">
+        <input type="text" name="lname" id="lname" value="" required>
 
         <label for="">Email:</label>
-        <input type="email" name="email" id="email" value="">
+        <input type="email" name="email" id="email" value="" required>
 
         <label for="">Country</label>
-        <input type="text" name="country" id="country" value="">
+        <input type="text" name="country" id="country" value="" required>
 
-        <div class="g-recaptcha" data-sitekey="your_site_key"></div>
+        <div class="g-recaptcha" data-sitekey="6Le2o9cUAAAAALBJ8-GMgwVOJm8kzwHGR2nuIjcD"></div>
 
         <button name="submit">Submit</button>
     </form>
