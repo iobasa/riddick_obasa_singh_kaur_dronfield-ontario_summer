@@ -1,0 +1,8 @@
+## Redirect (good for SEO)
+Redirect 301 /movies_cms/load.php /movies_cms
+Redirect 301 /load.php /
+
+## Deny Access
+<FilesMatch "\.?htaccess$">
+    deny from all
+</FilesMatch>
