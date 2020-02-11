@@ -53,9 +53,18 @@ function login($fname, $lname, $email, $country, $ip){
 
         while($found_user = $user_check->fetch(PDO::FETCH_ASSOC)){
             $id = $found_user['user_id'];
+
+            $date = date_default_timezone_set("America/Toronto");
             $date = date("Y-m-d h:i:s");
+            // $date =date( string "Y-m-d h:i:s" [, int $timestamp = time() ]);
+            // $date = $date->format('UTC');
+          
+            
             //logged in!
             $message = 'You just logged in!';
+
+            // echo $date;
+            // exit;
 
             //TODO: finish the following lines so that when user logged in
             //The user_ip column get updated by the $ip

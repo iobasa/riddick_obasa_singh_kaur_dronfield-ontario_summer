@@ -22,7 +22,7 @@ services:
       - 8889:3306
     environment:
       TZ: America/Toronto
-      MYSQL_DATABASE: db_movies
+      MYSQL_DATABASE: db_tourism
       MYSQL_USER: docker_u
       MYSQL_PASSWORD: docker_p
       MYSQL_ROOT_PASSWORD: root

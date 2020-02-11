@@ -1,5 +1,6 @@
 <?php
     require_once '../load.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

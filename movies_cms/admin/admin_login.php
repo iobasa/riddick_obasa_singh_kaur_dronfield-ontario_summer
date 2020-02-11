@@ -3,62 +3,11 @@
 
     $ip = $_SERVER['REMOTE_ADDR'];
 
-    // $conn = mysqli_connect('localhost', 'root', '');
-    //  $date = $_SERVER['REQUEST_TIME_FLOAT'];
-
-//     if (empty($_SESSION['failed_login'])) 
-// {
-//     $_SESSION['failed_login'] = 1;
-// } 
-// elseif (isset($_POST['submit'])) 
-// {
-//     $_SESSION['failed_login']++;
-// }
-
-
-// // if login fail 3 times
-// if ($_SESSION['failed_login'] > 3) {
-// 	$message = 'U failed to login 3 times ' .$_SESSION['failed_login'];
-// }
-
-	// if (isset($_POST["username"]) && isset($_POST["password"]))
-	// {
-	// 	// This checks if the value has ever been set, if not, declares it as zero.
-	// 	if (!isset($_SESSION["attempts"]))
-	// 		$_SESSION["attempts"] = 0;
-			
-	// 	if ($_SESSION["attempts"] < 3)
-	// 	{
-	// 		$username = $_POST["username"];
-	// 		$password = $_POST["password"];
-			
-	// 		if ($username = "test" && $password == "test")
-	// 		{
-	// 			echo "Hello, you are logged in.";
-	// 		}
-	// 		else
-	// 		{
-	// 			echo "You failed to log-in, try again";
-	// 			$_SESSION["attempts"] = $_SESSION["attempts"] + 1;
-	// 		}
-			
-	// 	}
-	// 	else
-	// 	{
-	// 		echo "You've failed too many times, dude.";
-	// 	}
-	// }
-
 
     if(isset($_POST['submit'])){
 
 
 
-        // if (!isset($_SESSION["attempts"]))
-		// 	$_SESSION["attempts"] = 0;
-			
-		// if ($_SESSION["attempts"] < 3)
-		// {
             $fname = trim($_POST['fname']);
             $lname = trim($_POST['lname']);
             $email = trim($_POST['email']);
@@ -67,26 +16,6 @@
 			
 			if(!empty($fname) && !empty($lname) && !empty($email) && !empty($country))
 			{
-                if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
-                {
-                      $secret = '6Le2o9cUAAAAAFgmZ3lVZcKJAPr_dH9c8XpT-OII';
-                      $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
-                      $responseData = json_decode($verifyResponse);
-                      if($responseData->success)
-                      {
-                          $message = 'Your contact request have submitted successfully.';
-                      }
-                      else
-                      {
-                          $message = 'Robot verification failed, please try again.';
-                      }
-                 }
-
-
-                 $message = login($fname, $lname, $email, $country, $ip);
-
-                //   echo $sql;
-                //  exit;
 
                 $apiKey = '03a527ee441a392f6e289a4c7afdb535-us4';
                 $listID = '78f599c2c7';
@@ -95,7 +24,7 @@
                 // MailChimp API URL
             $memberID = md5(strtolower($email));
             $dataCenter = substr($apiKey,strpos($apiKey,'-')+1);
-        $url = 'https://' . $dataCenter . '.api.mailchimp.com/3.0/lists/' . $listID . '/members/' . $memberID;
+            $url = 'https://'.$dataCenter .'.api.mailchimp.com/3.0/lists/'.$listID.'/members/'.$memberID.'';
                  
                 $json = json_encode([
                     'email_address' => $email,
@@ -118,6 +47,30 @@
             $result = curl_exec($ch);
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
+            
+                if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response']))
+                {
+                      $secret = '6Le2o9cUAAAAAFgmZ3lVZcKJAPr_dH9c8XpT-OII';
+                      $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+                      $responseData = json_decode($verifyResponse);
+
+                      if($responseData->success)
+                      {
+                          $message = 'Your contact request have submitted successfully.';
+                      }
+                      else
+                      {
+                          $message = 'Robot verification failed, please try again.';
+                      }
+                 }
+
+
+                 $message = login($fname, $lname, $email, $country, $ip);
+
+                //   echo $sql;
+                //  exit;
+
+              
 
     
             
